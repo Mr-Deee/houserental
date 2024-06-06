@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
 
-      const String adminEmail = ' houserentadmin@gmail.com ';
+      const String adminEmail = 'houserentadmin@gmail.com';
       if(_emailController.text==adminEmail){
 
         Navigator.pushReplacement(
