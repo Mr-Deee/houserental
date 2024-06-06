@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:houserental/Screens/VieAllHouses.dart';
+import 'package:houserental/Screens/ViewRentedHousesPage.dart';
 import 'package:houserental/Screens/addHouse.dart';
 
 class Admin extends StatefulWidget {
@@ -12,13 +14,13 @@ class Admin extends StatefulWidget {
 class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
-    return return Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.8),
       appBar: AppBar(
         backgroundColor: Colors.white.withOpacity(0),
         elevation: 0,
         title: Text(
-          'Home',
+          'Amin',
           style: TextStyle(
             fontFamily: 'Bowlby',
             color: Colors.black,
@@ -50,7 +52,7 @@ class _AdminState extends State<Admin> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ViewRentedHousesPage()),
+                  MaterialPageRoute(builder: (context) => ViewRentedHouses()),
                 );
               },
             ),
@@ -61,7 +63,7 @@ class _AdminState extends State<Admin> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ViewAllHousesPage()),
+                  MaterialPageRoute(builder: (context) => Viewallhouses()),
                 );
               },
             ),

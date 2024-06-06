@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:houserental/Screens/Admin.dart';
 import 'package:houserental/Screens/SignUp.dart';
 import 'package:houserental/Screens/homepage.dart';
 
@@ -160,6 +161,82 @@ class _LoginScreenState extends State<LoginScreen> {
                   ))
             ])
     );
+  }
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+//Connexion par email/mot de passe
+  void loginAndAuthenticateUser(BuildContext context) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+              backgroundColor: Colors.transparent,
+              child: Container(
+                  margin: EdgeInsets.all(15.0),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40.0)),
+                  child: Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 6.0,
+                            ),
+                            CircularProgressIndicator(
+                              valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.black),
+                            ),
+                            SizedBox(
+                              width: 26.0,
+                            ),
+                            Text("Loging In,please wait")
+                          ],
+                        ),
+                      ))));
+        });
+
+    final User? firebaseUser = (await _firebaseAuth
+        .signInWithEmailAndPassword(
+      email: _emailController.text.toString().trim(),
+      password: _passwordController.text.toString().trim(),
+    )
+        .catchError((errMsg) {
+      Navigator.pop(context);
+      displayToast("Error" + errMsg.toString(), context);
+    }))
+        .user;
+    try {
+      UserCredential userCredential =
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
+
+      const String adminEmail = ' houserentadmin@gmail.com ';
+      if(_emailController.text==adminEmail){
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Admin()));
+
+      }
+      else
+      if (firebaseUser != null) {
+        // AssistantMethod.getCurrentOnlineUserInfo(context);
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => Homepage()),
+                (Route<dynamic> route) => false);
+        displayToast("Logged-in ", context);
+      } else {
+        displayToast("Error: Cannot be signed in", context);
+      }
+    } catch (e) {
+      // handle error
+    }
   }
 }
 
