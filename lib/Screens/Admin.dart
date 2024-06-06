@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:houserental/Screens/VieAllHouses.dart';
@@ -17,10 +18,59 @@ class _AdminState extends State<Admin> {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.8),
       appBar: AppBar(
+        actions: [   IconButton(
+          onPressed: () {
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false, // user must tap button!
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Sign Out'),
+                  backgroundColor: Colors.white,
+                  content: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Text('Are you certain you want to Sign Out?'),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text(
+                        'Yes',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      onPressed: () {
+                        print('yes');
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, "/SignIn", (route) => false);
+                        // Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          icon: const Icon(
+            Icons.logout,
+            color: Colors.black,
+          ),
+        ),],
         backgroundColor: Colors.white.withOpacity(0),
         elevation: 0,
         title: Text(
-          'Amin',
+          'Admin',
           style: TextStyle(
             fontFamily: 'Bowlby',
             color: Colors.black,
