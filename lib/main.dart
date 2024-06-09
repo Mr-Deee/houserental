@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:houserental/Screens/SignUp.dart';
 import 'package:houserental/Screens/homepage.dart';
@@ -23,6 +24,7 @@ create: (context) => Users(),
 ] ,child : MyApp())));
 }
 
+DatabaseReference Clientsdb = FirebaseDatabase.instance.ref().child("Users");
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
       ),
         debugShowCheckedModeBanner: false,
         initialRoute:
-        FirebaseAuth.instance.currentUser == null ? '/signup' : '/Homepage',
+        FirebaseAuth.instance.currentUser == null ? '/signup' : '/signup',
         routes: {
           // "/splash": (context) => SplashScreen(),
           // "/onboard": (context) => OnBoardingPage(),
