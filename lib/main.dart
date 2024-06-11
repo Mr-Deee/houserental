@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
            "/Admin": (context) => Admin(),
           "/SignIn": (context) => LoginScreen(),
           "/signup": (context) => SignUP(),
-          "/Homepage": (context) => Homepage(),
         });
   }
 }
@@ -83,14 +82,12 @@ class _CheckUserRoleState extends State<CheckUserRole> {
           Navigator.pushReplacementNamed(context, '/Admin');});
       } else if (gasStationSnapshot.snapshot.value != null &&
           (gasStationSnapshot.snapshot.value as Map<dynamic, dynamic>).containsKey(user.uid)) {
-        // User is a gas station
-
-        Future.delayed(Duration.zero, () {
+              Future.delayed(Duration.zero, () {
           Navigator.pushReplacementNamed(context, '/HomeScreen');});
       } else {
         // User is not assigned a role
         Future.delayed(Duration.zero, () {
-          Navigator.pushReplacementNamed(context, '/Admin');});
+          Navigator.pushReplacementNamed(context, '/signup');});
       }
     } else {
       // No user logged in

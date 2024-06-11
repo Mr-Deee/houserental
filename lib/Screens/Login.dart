@@ -120,10 +120,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState?.validate() ?? false) {
-                                _login();
-                              }
+                            onPressed: () async {
+
+                                loginAndAuthenticateUser(context);
+
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue,
@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void loginAndAuthenticateUser(BuildContext context) async {
     showDialog(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: true,
         builder: (BuildContext context) {
           return Dialog(
               backgroundColor: Colors.transparent,
@@ -213,9 +213,9 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       UserCredential userCredential =
       await _firebaseAuth.signInWithEmailAndPassword(
-          email: _emailController.text, password: _passwordController.text);
+          email: _emailController.text.trim(), password: _passwordController.text);
 
-      const String adminEmail = 'houserentadmin@gmail.com';
+      const String adminEmail = 'admin@gmail.com';
       if(_emailController.text==adminEmail){
 
         Navigator.pushReplacement(
@@ -231,6 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (context) => Homepage()),
                 (Route<dynamic> route) => false);
         displayToast("Logged-in ", context);
+
       } else {
         displayToast("Error: Cannot be signed in", context);
       }
