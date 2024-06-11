@@ -170,6 +170,17 @@ class _HomepageState extends State<Homepage> {
                       },
                     ),
                   ),
+
+
+                SizedBox(height: 10),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showRentDialog(house);
+                    },
+                    child: Text('Rent'),
+                  ),
+                ),
               ],
             ),
           ),
@@ -177,6 +188,65 @@ class _HomepageState extends State<Homepage> {
       },
     );
   }
+  void showRentDialog(Map<dynamic, dynamic> house) {
+    TextEditingController daysController = TextEditingController();
 
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Rent ${house['house_name']}'),
+          content: TextField(
+            controller: daysController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Number of days',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final int numberOfDays = int.parse(daysController.text);
+                final double pricePerDay = house['price'] / 30; // Assuming the price is given per month
+                final double totalPrice = numberOfDays * pricePerDay;
+
+                writeRentalToDatabase(house, numberOfDays, totalPrice);
+                Navigator.pop(context);
+              },
+              child: Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void writeRentalToDatabase(Map<dynamic, dynamic> house, int numberOfDays, double totalPrice) {
+    _database.child('rentals').push().set({
+      'house_name': house['house_name'],
+      'house_number': house['house_number'],
+      'mobile_number': house['mobile_number'],
+      'location': house['location'],
+      'number_of_days': numberOfDays,
+      'total_price': totalPrice,
+      'timestamp': DateTime.now().toString(),
+    }).then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('House rented successfully!')),
+      );
+    }).catchError((error) {
+      print("Failed to rent house: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to rent house.')),
+      );
+    });
+  }
 }
 
