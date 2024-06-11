@@ -12,6 +12,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final DatabaseReference _database = FirebaseDatabase.instance.reference().child('houses');
+  final DatabaseReference _rentaldb = FirebaseDatabase.instance.ref().child('rental');
   List<Map<dynamic, dynamic>> houseList = [];
 
   @override
@@ -88,6 +89,7 @@ class _HomepageState extends State<Homepage> {
             ),
           )
         ],
+        title: Text("HomePage"),
       ),
       body:  houseList.isEmpty
           ? Center(child: CircularProgressIndicator())
@@ -229,7 +231,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   void writeRentalToDatabase(Map<dynamic, dynamic> house, int numberOfDays, double totalPrice) {
-    _database.child('rentals').push().set({
+    _rentaldb.push().set({
       'house_name': house['house_name'],
       'house_number': house['house_number'],
       'mobile_number': house['mobile_number'],
