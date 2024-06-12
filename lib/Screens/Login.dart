@@ -45,17 +45,18 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         body: Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/background.jpg"),
-                    // Add your background image in assets
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     image: DecorationImage(
+              //       image: AssetImage("assets/background.jpg"),
+              //       // Add your background image in assets
+              //       fit: BoxFit.cover,
+              //     ),
+              //   ),
+              // ),
               Container(
                 color: Colors.black.withOpacity(0.5),
               ),
@@ -120,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () async {
+                            onPressed: ()  {
 
                                 loginAndAuthenticateUser(context);
 
@@ -226,13 +227,13 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       else
       if (firebaseUser != null) {
-        // AssistantMethod.getCurrentOnlineUserInfo(context);
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => Homepage()),
-                (Route<dynamic> route) => false);
+        Navigator.pop(context); // Dismiss the loading dialog
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => Homepage()),);
         displayToast("Logged-in ", context);
 
       } else {
+        Navigator.pop(context); // Dismiss the loading dialog
         displayToast("Error: Cannot be signed in", context);
       }
     } catch (e) {

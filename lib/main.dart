@@ -37,11 +37,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-        debugShowCheckedModeBanner: false,
+    debugShowCheckedModeBanner: false,
         initialRoute:'/',
        // FirebaseAuth.instance.currentUser == null ? '/' : '/signup',
         routes: {
@@ -92,7 +91,7 @@ class _CheckUserRoleState extends State<CheckUserRole> {
     } else {
       // No user logged in
       Future.delayed(Duration.zero, () {
-        Navigator.pushReplacementNamed(context, '/SignIn');});
+        Navigator.pushReplacementNamed(context, '/Admin');});
     }
   }
 
