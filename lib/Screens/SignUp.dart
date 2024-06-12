@@ -213,6 +213,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
 
                   GestureDetector(
                     onTap: () {

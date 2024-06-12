@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,29 @@ class ViewRentedHouses extends StatefulWidget {
 }
 
 class _ViewRentedHousesState extends State<ViewRentedHouses> {
+  final DatabaseReference _rentedDatabase = FirebaseDatabase.instance.ref().child('rental');
+  List<Map<dynamic, dynamic>> houseList = [];
   List<Map<dynamic, dynamic>> rentedHouseList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchRentedHouses();
+  }
+
+  void fetchRentedHouses() {
+    _rentedDatabase.onValue.listen((event) {
+      final List<Map<dynamic, dynamic>> rentedHouses = [];
+      final data = event.snapshot.value as Map<dynamic, dynamic>;
+      data.forEach((key, value) {
+        rentedHouses.add(value);
+      });
+      setState(() {
+        rentedHouseList = rentedHouses;
+      });
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body:  rentedHouseList.isEmpty
